@@ -98,7 +98,8 @@ class LibraryBook(Base):
     acquired_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
 
     book: Mapped["Book"] = relationship(back_populates="library_books")
-    loans: Mapped[list["Loan"]] = relationship(back_populates="library_book")
+    # añado cascade para que al borrar un ejemplar se borren sus loans devueltos
+    loans: Mapped[list["Loan"]] = relationship(back_populates="library_book", cascade="all, delete-orphan")
 
 
 class Loan(Base):
