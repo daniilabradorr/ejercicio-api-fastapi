@@ -18,3 +18,11 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 #la clase declarativa
 class Base(DeclarativeBase):
     pass
+
+#creo una sesion por peticion y la cierro automarticamnet al terminar
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
